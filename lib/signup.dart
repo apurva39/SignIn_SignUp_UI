@@ -10,7 +10,24 @@ class MySignUp extends StatefulWidget {
 }
 
 class _MySignUpState extends State<MySignUp> {
+  final _formKey=GlobalKey<FormState>();
+
+  var email="";
+  var password="";
+  var confirmPassword="";
+
+  final emailController=TextEditingController();
+  final passwordController=TextEditingController();
+  final confirmPasswordController=TextEditingController();
+
   @override
+  void dispose()
+  {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -66,6 +83,16 @@ class _MySignUpState extends State<MySignUp> {
                       ),
                     ),
                     SizedBox(height: 40,),
+                    TextField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          hintText: 'Confirm Password',
+                          fillColor: Colors.grey.shade200,
+                          filled: true,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(13),)
+                      ),
+                    ),
+                    SizedBox(height: 40,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -88,7 +115,16 @@ class _MySignUpState extends State<MySignUp> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
 
-                        TextButton( onPressed: (){},
+                        TextButton( onPressed: (){
+                          if(_formKey.currentState!.validate())
+                          {
+                            setState(() {
+                              email=emailController.text;
+                              password=passwordController.text;
+                              confirmPassword=confirmPasswordController.text;
+                            });
+                          }
+                        },
                           child: Text('Sign In',style: TextStyle(fontSize: 17,decoration: TextDecoration.underline,fontWeight: FontWeight.bold,color: Colors.grey.shade800),
                           ),
                         ),
